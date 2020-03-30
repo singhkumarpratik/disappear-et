@@ -1,10 +1,10 @@
-from flask import Flask,render_template,url_for, request
+from flask import Flask,render_template,url_for, request, send_from_directory
 from firebase import firebase
 from form import Firebase_Input
 import secrets
 import json
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 app.config['SECRET_KEY'] = '794b86bced881103146534707eb9ea29'
 @app.route('/')
@@ -30,6 +30,10 @@ def isUniqueUrl(url, result):
         return isUniqueUrl(url, result)
     return url
 
+@app.route('/robots.txt')
+def static_from_root():
+    return send_from_directory(app.static_folder, request.path[1:])
+
 @app.route('/<token>')
 def fetchMessage(token):
 
@@ -41,8 +45,6 @@ def fetchMessage(token):
         firebase_var.delete('https://self-destruct-fef93.firebaseio.com/',token)
         firebase_var.delete('/allkeys/', token)
         return render_template('fetch.html', posts=posts)
-    elif(token == 'robots.txt'):
-        return render_template('robots.txt')
     else:
         return render_template('404.html')
 
