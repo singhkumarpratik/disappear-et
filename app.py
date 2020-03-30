@@ -22,6 +22,7 @@ def hello_world():
         firebase_var.put('https://self-destruct-fef93.firebaseio.com/allkeys', str(uniqueurl), 1)
         generatedURL= request.url+str(urltoken)
         return render_template('generate.html',generatedURL=generatedURL)
+
     return render_template('index.html', form=form)
 
 def isUniqueUrl(url, result):
@@ -30,23 +31,25 @@ def isUniqueUrl(url, result):
         return isUniqueUrl(url, result)
     return url
 
-@app.route('/robots.txt')
-def static_from_root():
-    return send_from_directory(app.static_folder, request.path[1:])
-
 @app.route('/<token>')
+@app.route('/<token>', methods=['POST'])
 def fetchMessage(token):
 
-    firebase_var = firebase.FirebaseApplication('https://self-destruct-fef93.firebaseio.com/', None)
-    alltoken = firebase_var.get('/allkeys', None)
-    if(token in alltoken):
-        result = firebase_var.get(token, None)
-        posts = result["code"]
-        firebase_var.delete('https://self-destruct-fef93.firebaseio.com/',token)
-        firebase_var.delete('/allkeys/', token)
-        return render_template('fetch.html', posts=posts)
-    else:
-        return render_template('404.html')
+    newform = Firebase_Input()
+
+    if request.method == 'POST': 
+        firebase_var = firebase.FirebaseApplication('https://self-destruct-fef93.firebaseio.com/', None)
+        alltoken = firebase_var.get('/allkeys', None)
+        if(token in alltoken):
+            result = firebase_var.get(token, None)
+            posts = result["code"]
+            firebase_var.delete('https://self-destruct-fef93.firebaseio.com/',token)
+            firebase_var.delete('/allkeys/', token)
+            return render_template('fetch.html', posts=posts)
+        else:
+            return render_template('404.html')
+
+    return render_template('button.html',form=newform)
 
 if __name__ == "__main__":
     app.run(debug=True)
