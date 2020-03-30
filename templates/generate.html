@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include 'headInclude.html' %}
+  </head>
+  <body>
+		<!-- Navbar -->
+		{% include 'navbar.html' %}
+		<!-- Navbar Ends -->
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h1 class="text-center mx-auto mt-4 mb-4">Your secret link has been generated.</h1>
+                    <p class="text-center mx-auto mt-4 mb-2"><i class="fas fa-check-circle fa-7x"></i></p>
+                    <p class="text-center mx-auto mt-4 mb-2">Send this link to your friend. This link will be destroyed once your friend has seen the message.</p>
+                    <input id="foo" value="{{ generatedURL }}" class="text-center form-control mx-auto mt-4 mb-2"style="background-color: #414141; color:white;">
+                    <!-- Trigger -->
+                    <button type="button" class="btn btn-outline-warning btn-lg btn-block mx-auto mt-4 mb-2" data-clipboard-target="#foo">
+                        <i class="fas fa-clipboard"></i> Copy link
+                    </button>
+				</div>
+			</div>
+            <!-- Modal -->
+            {% include 'modal.html' %}
+            <!-- Modal Ends -->
+		</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}" type="text/javascript"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
+	<script src="{{ url_for('static', filename='js/clipboard.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+		$(function () {
+			$("[rel='tooltip']").tooltip();
+		});
+        new ClipboardJS('.btn');
+		</script>
+  </body>
+</html>
