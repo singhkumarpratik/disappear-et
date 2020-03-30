@@ -26,7 +26,6 @@ def hello_world():
 
 def isUniqueUrl(url, result):
     if(url in result):
-        print("same generate")
         url = secrets.token_hex(32)
         return isUniqueUrl(url, result)
     return url
@@ -37,12 +36,13 @@ def fetchMessage(token):
     firebase_var = firebase.FirebaseApplication('https://self-destruct-fef93.firebaseio.com/', None)
     alltoken = firebase_var.get('/allkeys', None)
     if(token in alltoken):
-        print("fhrhfddfd")
         result = firebase_var.get(token, None)
         posts = result["code"]
         firebase_var.delete('https://self-destruct-fef93.firebaseio.com/',token)
         firebase_var.delete('/allkeys/', token)
         return render_template('fetch.html', posts=posts)
+    elif(token == 'robots.txt'):
+        return render_template('robots.txt')
     else:
         return render_template('404.html')
 
