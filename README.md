@@ -2,7 +2,7 @@
 A Web-app which allows you to send messages which self-disappear after it has been viewed once.
 
 ## Demo
-http://disappear-et.herokuapp.com/
+https://disappear-et.herokuapp.com/
 
 ## Authors
 
